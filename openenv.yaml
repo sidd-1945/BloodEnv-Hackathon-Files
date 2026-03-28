@@ -1,0 +1,25 @@
+version: "1.0"
+name: "BloodEnv: Autonomous Perishable Logistics"
+description: "A high-stakes agentic environment for managing life-saving blood supply chains with strict perishability constraints."
+entry_point: "blood_env:BloodEnv"
+
+tasks:
+  - id: "bloodenv-easy-v0"
+    difficulty: "easy"
+    description: "Single hospital, constant demand, 30-day shelf life."
+    kwargs:
+      num_hospitals: 1
+      volatility: 0.1
+  - id: "bloodenv-medium-v0"
+    difficulty: "medium"
+    description: "5-hospital network with stochastic demand and transshipment costs."
+    kwargs:
+      num_hospitals: 5
+      volatility: 0.4
+  - id: "bloodenv-hard-v0"
+    difficulty: "hard"
+    description: "Multi-hospital grid with emergency shortages and rare blood type constraints."
+    kwargs:
+      num_hospitals: 5
+      volatility: 0.8
+      emergency_events: true
