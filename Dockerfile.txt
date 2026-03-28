@@ -1,0 +1,29 @@
+# Use a slim version of Python 3.10 for a smaller image footprint
+FROM python:3.10-slim
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+# Install system dependencies if needed (e.g., git for HF)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install
+COPY requirements.txt .
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Copy application code
+COPY . .
+
+# Create a non-root user for HF Spaces security
+RUN useradd -m appuser
+USER appuser
+
+# Default command runs the baseline evaluation script
+    CMD ["python", "eval_baseline.py"]
